@@ -1,12 +1,4 @@
-# -*- coding: cp936 -*-
-"""
-°æ±¾£º1.0
-×÷Õß£ºÖìºéº£ hhzhu@wind.com.cn Ê±¼ä£º20130712
-¸üĞÂÊ±¼ä£º20130820 Ôö¼Ó½»Ò×½Ó¿Ú
-ÎÄµµ½éÉÜ£ºWind Python½Ó¿Ú³ÌĞò¡£ĞèÓëWindPy.dllÒ»ÆğÊ¹ÓÃ
-ĞŞ¸ÄÀúÊ·£º
-°æÈ¨£ºËæWindÖÕ¶ËÒ»ÆğÏúÊÛ
-"""
+
 
 from ctypes import *
 import threading
@@ -15,9 +7,9 @@ import sys
 from datetime import datetime,date,time,timedelta
 class c_variant(Structure):
     """
-    ¶¨ÒåÓëVCÖĞVariantÀàĞÍ¶ÔÓ¦µÄÀà
-    Ëü°üº¬vt(ÀàĞÍÎªc_uint16) ºÍ c_var_union ÀàĞÍ¡£
-    ¸ÃÀàĞÍÓ¦¸Ã´ÓDLLÖĞ·µ»Ø,¼´POINT(c_variant)£¬²¢ÇÒÓ¦Ê¹ÓÃfree_dataÊÍ·Å¡£
+    å®šä¹‰ä¸VCä¸­Variantç±»å‹å¯¹åº”çš„ç±»
+    å®ƒåŒ…å«vt(ç±»å‹ä¸ºc_uint16) å’Œ c_var_union ç±»å‹ã€‚
+    è¯¥ç±»å‹åº”è¯¥ä»DLLä¸­è¿”å›,å³POINT(c_variant)ï¼Œå¹¶ä¸”åº”ä½¿ç”¨free_dataé‡Šæ”¾ã€‚
     """
     _anonymous_ = ("val",)
     pass
@@ -39,7 +31,7 @@ class c_safearraybound( Structure):
 
 class c_safearray(Structure):
     """
-    ¶¨ÒåÓëVCÖĞSafeArrayÀàĞÍ¶ÔÓ¦µÄÀà
+    å®šä¹‰ä¸VCä¸­SafeArrayç±»å‹å¯¹åº”çš„ç±»
     """    
     _anonymous_ = ("pvData",)
     _fields_=[("cDims", c_uint16),
@@ -76,7 +68,7 @@ class c_var_union(Union):
 c_variant._fields_ = [ ("vt",c_uint16), ("wr1",c_uint16),("wr2",c_uint16),("wr3",c_uint16),("val",c_var_union)]
 
 """
-¶¨ÒåÓëVT³£Á¿
+å®šä¹‰ä¸VTå¸¸é‡
 """  
 VT_EMPTY= 0
 VT_NULL	= 1
@@ -123,16 +115,16 @@ gFunctionDict={}
 
 class w:
     """
-    ×÷Õß£ºÖìºéº££¬Ê±¼ä£º20130707
-    ¶ÔWind Python½Ó¿Ú½øĞĞ°ü×°µÄÀà£¬´Ó¶øÌá¹©ÓëRÏàËÆµ÷ÓÃ½Ó¿ÚµÄ²Ù×÷·½Ê½¡£
-    Ê¹ÓÃ·½Ê½ÊÇ£º
-    Ê×ÏÈµ÷ÓÃw.start()
-    È»ºó·Ö±ğÊ¹ÓÃw.wsd,w.wss,w.wst,w.wsi,w.wsq,w.wset,w.wpf,w.tdays,w.tdaysoffset,w.tdayscountÃüÁî»ñÈ¡Êı¾İ¡£
+    ä½œè€…ï¼šæœ±æ´ªæµ·ï¼Œæ—¶é—´ï¼š20130707
+    å¯¹Wind Pythonæ¥å£è¿›è¡ŒåŒ…è£…çš„ç±»ï¼Œä»è€Œæä¾›ä¸Rç›¸ä¼¼è°ƒç”¨æ¥å£çš„æ“ä½œæ–¹å¼ã€‚
+    ä½¿ç”¨æ–¹å¼æ˜¯ï¼š
+    é¦–å…ˆè°ƒç”¨w.start()
+    ç„¶ååˆ†åˆ«ä½¿ç”¨w.wsd,w.wss,w.wst,w.wsi,w.wsq,w.wset,w.wpf,w.tdays,w.tdaysoffset,w.tdayscountå‘½ä»¤è·å–æ•°æ®ã€‚
     """
 
     class c_apiout(Structure):
         """
-        ÓÃÀ´ÃèÊöAPI¸÷ÖÖÊı¾İº¯ÊıµÄ·µ»ØÖµ¡£¸ßË®Æ½ÓÃ»§¿ÉÒÔÖ±½ÓÊ¹ÓÃdllº¯Êı£¬´Ó¶øÌá¸ßËÙ¶È¡£
+        ç”¨æ¥æè¿°APIå„ç§æ•°æ®å‡½æ•°çš„è¿”å›å€¼ã€‚é«˜æ°´å¹³ç”¨æˆ·å¯ä»¥ç›´æ¥ä½¿ç”¨dllå‡½æ•°ï¼Œä»è€Œæé«˜é€Ÿåº¦ã€‚
         """
         #_anonymous_ = ("val",)
         _fields_=[("ErrorCode", c_int32),
@@ -158,8 +150,8 @@ class w:
             return str(self);
     
     """
-    Òı³öWindPy.dll º¯Êı
-    °üº¬£¬c_start,c_stop,c_wsd,c_wssµÈµÈ
+    å¼•å‡ºWindPy.dll å‡½æ•°
+    åŒ…å«ï¼Œc_start,c_stop,c_wsd,c_wssç­‰ç­‰
     """
     
     sitepath=".";
@@ -369,11 +361,11 @@ class w:
     
     class WindData:
         """
-        ×÷Õß£ºÖìºéº£ Ê±¼ä£º20130707
-        ÓÃÍ¾£ºÎªÁË·½±ã¿Í»§Ê¹ÓÃ£¬±¾ÀàÓÃÀ´°Ñapi·µ»ØÀ´µÄCÓïÑÔÊı¾İ×ª»»³ÉpythonÄÜÈÏµÄÊı¾İ£¬´Ó¶øÎªÓÃ»§ºóÃæ×ª»»³ÉnumpyÌá¹©·½±ã
-             ±¾Àà°üº¬.ErrorCode ¼´ÃüÁî´íÎó´úÂë£¬0±íÊ¾´íÎó£»
-                  ¶ÔÓÚÊı¾İ½Ó¿Ú»¹ÓĞ£º  .Codes ÃüÁî·µ»ØµÄ´úÂë£» .FieldsÃüÁî·µ»ØµÄÖ¸±ê£».TimesÃüÁî·µ»ØµÄÊ±¼ä£».DataÃüÁî·µ»ØµÄÊı¾İ
-                  ¶ÔÓÚ½»Ò×½Ó¿Ú»¹ÓĞ£º  .FieldsÃüÁî·µ»ØµÄÖ¸±ê£».DataÃüÁî·µ»ØµÄÊı¾İ
+        ä½œè€…ï¼šæœ±æ´ªæµ· æ—¶é—´ï¼š20130707
+        ç”¨é€”ï¼šä¸ºäº†æ–¹ä¾¿å®¢æˆ·ä½¿ç”¨ï¼Œæœ¬ç±»ç”¨æ¥æŠŠapiè¿”å›æ¥çš„Cè¯­è¨€æ•°æ®è½¬æ¢æˆpythonèƒ½è®¤çš„æ•°æ®ï¼Œä»è€Œä¸ºç”¨æˆ·åé¢è½¬æ¢æˆnumpyæä¾›æ–¹ä¾¿
+             æœ¬ç±»åŒ…å«.ErrorCode å³å‘½ä»¤é”™è¯¯ä»£ç ï¼Œ0è¡¨ç¤ºé”™è¯¯ï¼›
+                  å¯¹äºæ•°æ®æ¥å£è¿˜æœ‰ï¼š  .Codes å‘½ä»¤è¿”å›çš„ä»£ç ï¼› .Fieldså‘½ä»¤è¿”å›çš„æŒ‡æ ‡ï¼›.Timeså‘½ä»¤è¿”å›çš„æ—¶é—´ï¼›.Dataå‘½ä»¤è¿”å›çš„æ•°æ®
+                  å¯¹äºäº¤æ˜“æ¥å£è¿˜æœ‰ï¼š  .Fieldså‘½ä»¤è¿”å›çš„æŒ‡æ ‡ï¼›.Dataå‘½ä»¤è¿”å›çš„æ•°æ®
                     
         """
         def __init__(self):
@@ -524,8 +516,8 @@ class w:
             
         def __tolist(self,data,basei=0,diff=1):
             """:
-            ÓÃÀ´°ÑdllÖĞµÄcodes,fields,times ×ª³ÉlistÀàĞÍ
-            data Îªc_variant
+            ç”¨æ¥æŠŠdllä¸­çš„codes,fields,times è½¬æˆlistç±»å‹
+            data ä¸ºc_variant
             """
             totalCount = self.__getTotalCount(data);
             if(totalCount ==0): # or data.parray[0].cDims<1):
@@ -710,7 +702,7 @@ class w:
     __t2options=staticmethod(__t2options)
     
     def isconnected():
-        """ÅĞ¶ÏÊÇ·ñ³É¹¦Æô¶¯w.startÁË"""
+        """åˆ¤æ–­æ˜¯å¦æˆåŠŸå¯åŠ¨w.startäº†"""
         r = w.c_isConnectionOK()
         if r !=0: return True;
         else: return False;
@@ -722,7 +714,7 @@ class w:
     menu=staticmethod(menu)    
         
     def start(waitTime=120, showmenu=True):
-            """Æô¶¯WindPy£¬waitTimeÎªÃüÁîµÈ´ıÊ±¼ä¡£"""
+            """å¯åŠ¨WindPyï¼ŒwaitTimeä¸ºå‘½ä»¤ç­‰å¾…æ—¶é—´ã€‚"""
             outdata=w.WindData();
             if(w.isconnected()):
                 outdata.setErrMsg(0,"Already conntected!");
@@ -762,19 +754,19 @@ class w:
     start=staticmethod(start)
 
     def close():
-        """Í£Ö¹WindPy¡£"""
+        """åœæ­¢WindPyã€‚"""
         w.c_stop()
     close=staticmethod(close)
 
     def stop():
-        """Í£Ö¹WindPy¡£"""
+        """åœæ­¢WindPyã€‚"""
         w.c_stop()
     stop=staticmethod(stop)
 
 
 
     def wsd(codes, fields, beginTime=None, endTime=None, options=None,*arga,**argb):
-            """wsd»ñÈ¡ÈÕÆÚĞòÁĞ"""
+            """wsdè·å–æ—¥æœŸåºåˆ—"""
             if(endTime==None):  endTime = datetime.today().strftime("%Y-%m-%d")
             if(beginTime==None):  beginTime = endTime            
             codes = w.__dargArr2str(codes);
@@ -799,7 +791,7 @@ class w:
     wsd=staticmethod(wsd)
         
     def wst(codes, fields, beginTime=None, endTime=None, options=None,*arga,**argb):
-            """wst»ñÈ¡ÈÕÄÚÌø¼Û"""
+            """wstè·å–æ—¥å†…è·³ä»·"""
             if(endTime==None): endTime = datetime.today().strftime("%Y%m%d %H:%M:%S")
             if(beginTime==None):  beginTime = endTime   
             codes = w.__dargArr2str(codes);
@@ -824,7 +816,7 @@ class w:
     wst=staticmethod(wst)
         
     def wsi(codes, fields, beginTime=None, endTime=None, options=None,*arga,**argb):
-            """wsi»ñÈ¡·ÖÖÓĞòÁĞ"""
+            """wsiè·å–åˆ†é’Ÿåºåˆ—"""
             if(endTime==None): endTime = datetime.today().strftime("%Y%m%d %H:%M:%S")
             if(beginTime==None):  beginTime = endTime   
             codes = w.__dargArr2str(codes);
@@ -849,7 +841,7 @@ class w:
     wsi=staticmethod(wsi)
 
     def tdays(beginTime=None, endTime=None, options=None,*arga,**argb):
-            """tdaysÌØ¶¨½»Ò×ÈÕº¯Êı"""
+            """tdaysç‰¹å®šäº¤æ˜“æ—¥å‡½æ•°"""
             if(endTime==None): endTime = datetime.today().strftime("%Y%m%d")
             if(beginTime==None):  beginTime = endTime   
             options = w.__t2options(options,arga,argb);
@@ -871,7 +863,7 @@ class w:
     tdays=staticmethod(tdays)
 
     def tdayscount(beginTime=None, endTime=None, options=None,*arga,**argb):
-            """tdayscount½»Ò×ÈÕÍ³¼Æ"""
+            """tdayscountäº¤æ˜“æ—¥ç»Ÿè®¡"""
             if(endTime==None): endTime = datetime.today().strftime("%Y%m%d")
             if(beginTime==None):  beginTime = endTime 
             options = w.__t2options(options,arga,argb);
@@ -893,7 +885,7 @@ class w:
     tdayscount=staticmethod(tdayscount)
 
     def tdaysoffset(offset, beginTime=None, options=None,*arga,**argb):
-            """tdayscountÈÕÆÚÆ«ÒÆº¯Êı"""
+            """tdayscountæ—¥æœŸåç§»å‡½æ•°"""
             if(beginTime==None): beginTime = datetime.today().strftime("%Y%m%d")
 
             options = w.__t2options(options,arga,argb);
@@ -913,7 +905,7 @@ class w:
     tdaysoffset=staticmethod(tdaysoffset)
 
     def wset(tablename, options=None,*arga,**argb):
-            """wset»ñÈ¡Êı¾İ¼¯"""
+            """wsetè·å–æ•°æ®é›†"""
             tablename = w.__dargArr2str(tablename);
             options = w.__t2options(options,arga,argb);
             if(tablename==None or options==None):
@@ -929,7 +921,7 @@ class w:
     wset=staticmethod(wset)
 
     def weqs(filtername, options=None,*arga,**argb):
-            """weqs»ñÈ¡Ìõ¼şÑ¡¹ÉµÄ½á¹û"""
+            """weqsè·å–æ¡ä»¶é€‰è‚¡çš„ç»“æœ"""
             filtername = w.__dargArr2str(filtername);
             options = w.__t2options(options,arga,argb);
             if(filtername==None or options==None):
@@ -945,7 +937,7 @@ class w:
     weqs=staticmethod(weqs)    
     
     def wpf(productname,tablename, options=None,*arga,**argb):
-            """wpf×Ê¹Üº¯Êı"""
+            """wpfèµ„ç®¡å‡½æ•°"""
             productname = w.__dargArr2str(productname);
             tablename = w.__dargArr2str(tablename);
             options = w.__t2options(options,arga,argb);
@@ -962,7 +954,7 @@ class w:
     wpf=staticmethod(wpf)   
 
     def wupf(PortfolioName,TradeDate,WindCode,Quantity,CostPrice, options=None,*arga,**argb):
-            """wpf×Ê¹Üº¯Êı"""
+            """wpfèµ„ç®¡å‡½æ•°"""
             PortfolioName = w.__dargArr2str(PortfolioName);
             TradeDate = w.__dargArr2str(TradeDate);
             WindCode = w.__dargArr2str(WindCode);
@@ -982,7 +974,7 @@ class w:
     wupf=staticmethod(wupf)   
 
     def wsq(codes, fields, options=None, func=None,*arga,**argb):
-            """wsq»ñÈ¡ÊµÊ±Êı¾İ"""
+            """wsqè·å–å®æ—¶æ•°æ®"""
             codes = w.__dargArr2str(codes);
             fields = w.__dargArr2str(fields);
             options = w.__t2options(options,arga,argb);
@@ -1008,7 +1000,7 @@ class w:
     wsq=staticmethod(wsq)
 
     def wsqtd(codes, fields, options=None, func=None,*arga,**argb):
-            """wsqtd»ñÈ¡ÊµÊ±Êı¾İ"""
+            """wsqtdè·å–å®æ—¶æ•°æ®"""
             codes = w.__dargArr2str(codes);
             fields = w.__dargArr2str(fields);
             options = w.__t2options(options,arga,argb);
@@ -1034,7 +1026,7 @@ class w:
     wsqtd=staticmethod(wsqtd)
 
     def wss(codes, fields, options=None,*arga,**argb):
-            """wss»ñÈ¡¿ìÕÕÊı¾İ"""
+            """wssè·å–å¿«ç…§æ•°æ®"""
             codes = w.__dargArr2str(codes);
             fields = w.__dargArr2str(fields);
             options = w.__t2options(options,arga,argb);
@@ -1051,7 +1043,7 @@ class w:
     wss=staticmethod(wss)
     
     def readdata(reqid):
-        """readdata¶ÁÈ¡¶©ÔÄidÎªreqidµÄÊı¾İ"""
+        """readdataè¯»å–è®¢é˜…idä¸ºreqidçš„æ•°æ®"""
         out =w.WindData();
         apiout=w.c_readdata(reqid);
         out.set(apiout,3);
@@ -1060,7 +1052,7 @@ class w:
     readdata=staticmethod(readdata)
 
     def readanydata():
-        """readdata¶ÁÈ¡ÈÎºÎ¶©ÔÄµÄÊı¾İ"""
+        """readdataè¯»å–ä»»ä½•è®¢é˜…çš„æ•°æ®"""
         out =w.WindData();
         apiout=w.c_readanydata();
         out.set(apiout,3);
@@ -1376,7 +1368,7 @@ class w:
     
     
     def edb(codes, beginTime=None, endTime=None, options=None,*arga,**argb):
-            """edb»ñÈ¡"""
+            """edbè·å–"""
             if(endTime==None):  endTime = datetime.today().strftime("%Y-%m-%d")
             if(beginTime==None):  beginTime = endTime            
             codes = w.__dargArr2str(codes);
@@ -1402,11 +1394,11 @@ class w:
     
 def DemoWSQCallback(indata):
     """
-    ×÷Õß£ºÖìºéº£  Ê±¼ä20130713
-    DemoWSQCallback ÊÇWSQ¶©ÔÄÊ±Ìá¹©µÄ»Øµ÷º¯ÊıÄ£°å¡£¸Ãº¯ÊıÖ»ÓĞÒ»¸öÎªw.WindDataÀàĞÍµÄ²ÎÊıindata¡£
-    ¸Ãº¯ÊıÊÇ±»CÖĞÏß³Ìµ÷ÓÃµÄ£¬Òò´Ë´ËÏß³ÌÓ¦¸Ã½ö½öÏŞÓÚ¼òµ¥µÄÊı¾İ´¦Àí£¬²¢ÇÒ»¹Ó¦¸ÃÖ÷ÒªÏß³ÌÖ®¼ä»¥³â¿¼ÂÇ¡£
+    ä½œè€…ï¼šæœ±æ´ªæµ·  æ—¶é—´20130713
+    DemoWSQCallback æ˜¯WSQè®¢é˜…æ—¶æä¾›çš„å›è°ƒå‡½æ•°æ¨¡æ¿ã€‚è¯¥å‡½æ•°åªæœ‰ä¸€ä¸ªä¸ºw.WindDataç±»å‹çš„å‚æ•°indataã€‚
+    è¯¥å‡½æ•°æ˜¯è¢«Cä¸­çº¿ç¨‹è°ƒç”¨çš„ï¼Œå› æ­¤æ­¤çº¿ç¨‹åº”è¯¥ä»…ä»…é™äºç®€å•çš„æ•°æ®å¤„ç†ï¼Œå¹¶ä¸”è¿˜åº”è¯¥ä¸»è¦çº¿ç¨‹ä¹‹é—´äº’æ–¥è€ƒè™‘ã€‚
 
-    ÓÃ»§×Ô¶¨Òå»Øµ÷º¯Êı£¬ÇëÒ»¶¨ÒªÊ¹ÓÃtry...except
+    ç”¨æˆ·è‡ªå®šä¹‰å›è°ƒå‡½æ•°ï¼Œè¯·ä¸€å®šè¦ä½¿ç”¨try...except
     """
     try:
         lstr= '\nIn DemoWSQCallback:\n' + str(indata);
@@ -1416,11 +1408,11 @@ def DemoWSQCallback(indata):
     
 def StateChangedCallback(state,reqid,errorid):
     """
-    ×÷Õß£ºÖìºéº£  Ê±¼ä20130713
-    StateChangedCallback ÊÇÉèÖÃ¸ødll api½Ó¿ÚµÄ»Øµ÷º¯Êı¡£
-    ²ÎÊıstate±íÊ¾¶©ÔÄÇëÇóµÄ×´Ì¬£¬reqidÎª¶©ÔÄÇëÇóµÄID£¬erroridÔòÊÇ´íÎóID¡£
-    state=1ºÍstate=2Ê±±íÊ¾reqidÓĞĞ§¡£state=1±íÊ¾ÓĞÒ»Ìõ·µ»ØĞÅÏ¢£¬state=2±íÊ¾×îºóÒ»Ìõ·µ»ØĞÅÏ¢ÒÑ¾­À´µ½¡£
-    Ò»°ã±¾º¯Êı½«¸ù¾İreqid¶ÁÈ¡Êı¾İw.readdata(reqid),È»ºóÔÙ°ÑÊı¾İ·Ö·¢¸ø¾ßÌåµÄ»Øµ÷º¯ÊıwsqÃüÁîÌá¹©µÄº¯Êı¡£
+    ä½œè€…ï¼šæœ±æ´ªæµ·  æ—¶é—´20130713
+    StateChangedCallback æ˜¯è®¾ç½®ç»™dll apiæ¥å£çš„å›è°ƒå‡½æ•°ã€‚
+    å‚æ•°stateè¡¨ç¤ºè®¢é˜…è¯·æ±‚çš„çŠ¶æ€ï¼Œreqidä¸ºè®¢é˜…è¯·æ±‚çš„IDï¼Œerroridåˆ™æ˜¯é”™è¯¯IDã€‚
+    state=1å’Œstate=2æ—¶è¡¨ç¤ºreqidæœ‰æ•ˆã€‚state=1è¡¨ç¤ºæœ‰ä¸€æ¡è¿”å›ä¿¡æ¯ï¼Œstate=2è¡¨ç¤ºæœ€åä¸€æ¡è¿”å›ä¿¡æ¯å·²ç»æ¥åˆ°ã€‚
+    ä¸€èˆ¬æœ¬å‡½æ•°å°†æ ¹æ®reqidè¯»å–æ•°æ®w.readdata(reqid),ç„¶åå†æŠŠæ•°æ®åˆ†å‘ç»™å…·ä½“çš„å›è°ƒå‡½æ•°wsqå‘½ä»¤æä¾›çš„å‡½æ•°ã€‚
     """
     try:
         global gNewDataCome
