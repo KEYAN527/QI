@@ -1,5 +1,5 @@
 datetime
-scipy
+scipy.stats
 plotly
 seaborn
 matplotlib
