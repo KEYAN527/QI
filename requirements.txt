@@ -3,5 +3,3 @@ plotly
 seaborn
 matplotlib
 pyecharts
-jqdatasdk
-threading
