@@ -30,9 +30,8 @@ from pyecharts import options as opts
 # Import the hypothesis_testing.py module
 #from hypothesis_testing import *
 #import streamlit_analytics
-import sys
-sys.path.append("D:\K\project_indexfund\demo\script")
-from ETF_funcs import *
+
+from funcs import *
 
 class port_ana(object):
     def __init__(self, group,broker_name,mkt,index_list,last_rpt_period):
@@ -488,25 +487,25 @@ def main():
         '菜单', ('指数行情与业绩概览', '策略列表', '策略详情','我的策略'))
     if side_menu_selectbox == '指数行情与业绩概览':
         home(time_end = datetime.now().strftime('%Y-%m-%d'),
-             ETF_path= 'D:\\K\\project_indexfund\\202106\\data\\权益类ETF产品列表.xlsx')
+             ETF_path= './data/权益类ETF产品列表.xlsx')
     elif side_menu_selectbox == '策略列表':
-        strategy_list_ui(strategy_list_in = 'D:\\K\\project_indexfund\\202106\\data\\strategies\\场内策略汇总.xlsx',
-                         strategy_list_out = 'D:\\K\\project_indexfund\\202106\\data\\strategies\\场外策略汇总.xlsx',)
+        strategy_list_ui(strategy_list_in = './data/strategies/场内策略汇总.xlsx',
+                         strategy_list_out = './data/strategies/场外策略汇总.xlsx',)
     elif side_menu_selectbox == '策略详情':
         side_menu_sub_selectbox = st.sidebar.radio('指数基金策略组合', ('按赛道配置基金', '推荐策略配置基金', '标签族谱配置基金'))
         if side_menu_sub_selectbox == '按赛道配置基金':
-            construct_strategy_ui(ETF_pool_path = 'D:\\K\\project_indexfund\\202106\\data\\ind_ETFs\\ETF_pool.xlsx')
+            construct_strategy_ui(ETF_pool_path = './data/ind_ETFs/ETF_pool.xlsx')
             agree = st.checkbox('一键下单')
             if agree:
                 st.write('交易成功!')
         elif side_menu_sub_selectbox == '推荐策略配置基金':
-            broker_strategy_ui(broker_strategy_path = 'D:\\K\\project_indexfund\\202106\\data\\strategies\\',
-                               strategy_path = 'D:\\K\\project_indexfund\\202106\\data\\ETF_strategies.xlsx')
+            broker_strategy_ui(broker_strategy_path = './data/strategies/',
+                               strategy_path = './data/ETF_strategies.xlsx')
             agree = st.checkbox('一键下单')
             if agree:
                 st.write('交易成功!')
         elif side_menu_sub_selectbox == '标签族谱配置基金':
-            label_strategy_ui(ETF_label_path = 'D:\\K\\project_indexfund\\202106\\data\\ETF基金_标签汇总.xlsx')
+            label_strategy_ui(ETF_label_path = './data/ETF基金_标签汇总.xlsx')
             agree = st.checkbox('一键下单')
             if agree:
                 st.write('交易成功!')
