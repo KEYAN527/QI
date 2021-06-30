@@ -1,1 +1,6 @@
-statsmodel
+datetime
+scipy
+plotly
+seaborn
+matplotlib
+pyecharts
