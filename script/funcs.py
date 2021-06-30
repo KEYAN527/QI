@@ -245,7 +245,7 @@ def get_holding(group,broker_name,mkt):
     top_stk = top_stk.rename(columns = {'stk':'股票代码','weight':'股票权重'
                                         ,'财报主营构成-项目名称':'财报主营构成'},inplace = False)
     
-    stk_label = pd.read_excel('D:\\K\\project_indexfund\\202106\\data\\指数重仓股票_标签汇总.xlsx',sheet_name = 'Sheet1')
+    stk_label = pd.read_excel('./data/指数重仓股票_标签汇总.xlsx',sheet_name = 'Sheet1')
     stk_label = pd.merge(top_stk[['股票代码','股票权重']],stk_label[['股票代码','一级标签']].drop_duplicates(),
                          on = ['股票代码'],how = 'left')
     stk_label['股票权重'] = stk_label['股票权重'].apply(lambda x:np.float(x[:-1]))
