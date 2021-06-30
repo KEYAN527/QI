@@ -3,5 +3,4 @@ plotly
 seaborn
 matplotlib
 pyecharts
-WindPy
 jqdatasdk
