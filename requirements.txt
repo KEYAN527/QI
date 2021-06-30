@@ -4,5 +4,4 @@ seaborn
 matplotlib
 pyecharts
 jqdatasdk
-ctypes
 threading
