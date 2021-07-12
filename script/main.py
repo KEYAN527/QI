@@ -4,22 +4,14 @@ Created on Thu Jun 10 17:29:52 2021
 
 @author: Administrator
 """
-import os 
 from datetime import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import numpy as np
-# import plotly.express as px
-import plotly.graph_objects as go
-# import plotly.figure_factory as ff
-import plotly.tools as tls
-from plotly.subplots import make_subplots
-import seaborn as sns
-from matplotlib import pyplot as plt
 
-import matplotlib.dates as mdate
-from matplotlib.pyplot import MultipleLocator
+
+
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 from pyecharts.charts import Bar, Pie,Line
@@ -29,8 +21,7 @@ from pyecharts import options as opts
 # Import the hypothesis_testing.py module
 #from hypothesis_testing import *
 #import streamlit_analytics
-
-from funcs import *
+from funcs_run import *
 
 class port_ana(object):
     def __init__(self, group,broker_name,mkt,index_list,last_rpt_period):
@@ -47,14 +38,14 @@ class port_ana(object):
             self.port_nav = get_index(self.port_nav,i)
         self.port_nav = self.port_nav.rename(
                 columns = {'000905.XSHG':'中证500指数','000300.XSHG':'沪深300指数'},inplace = False)
-        return
+#        return
     
     def get_port_perf(self):
         perf_table = pd.DataFrame()
         for i in self.port_nav.columns[-3:]:
             perf_table = pd.concat([perf_table,get_perf(self.port_nav,i)])
         self.port_perf = perf_table[perf_table.columns[:6]]
-        return
+ #       return
     
     def get_ETF_perf(self):
         perf_table = pd.DataFrame()
@@ -69,22 +60,17 @@ class port_ana(object):
         ETF_perf = ETF_perf.rename(columns = {'index':self.mkt+'基金'},inplace = False)
         self.ETF_perf = pd.merge(ETF_perf,index_perf_table,on = [self.mkt+'基金'],how = 'outer')
         self.ETF_perf = self.ETF_perf.set_index([self.mkt+'基金',self.mkt+'代码'])
-        return
+  #      return
     
     def get_stk_holding(self):
         self.top_stk,port_ind,self.stk_label = get_holding(self.group,self.broker_name,self.mkt)
-        return
+   #     return
     
-
 def get_ETF_reve(ETF_data,time_end):
-    ETF_list = list(ETF_data['基金代码'])
-    ETF_reve = pd.DataFrame(w.wss(','.join(ETF_list), "return_1w,return_1m,return_ytd","tradeDate="+ time_end.replace('-','') +";annualized=0").Data).T
-    ETF_reve.columns = ['近1周收益(%)','近1月收益(%)','年初至今收益(%)']
-    ETF_reve.index = ETF_list
-    ETF_reve = ETF_reve.reset_index()
-    ETF_reve = ETF_reve.rename(columns = {'index':'基金代码'},inplace = False)
+    ETF_reve = pd.read_excel('./data/ETF_reve.xlsx')
+    ETF_reve = ETF_reve[['基金代码','近1周收益(%)','近1月收益(%)','年初至今收益(%)']]
     ETF_reve = ETF_reve.merge(ETF_data[['基金代码','基金名称','成立日期','指数名称']],on = '基金代码',how = 'left')
-#    del ETF_data
+    del ETF_data
     ETF_reve = ETF_reve.rename(columns = {'指数名称':'标的指数'},inplace = False)
     ETF_reve = ETF_reve.set_index(['基金代码','基金名称'])
     return ETF_reve
@@ -131,13 +117,14 @@ def home(time_end,ETF_path):
     chart_data = chart_data.sort_values(['ETF'])
     st.bar_chart(chart_data,height = 500,width = 800)
     
-
+#test
 def strategy_list_ui(strategy_list_in,strategy_list_out):
     strategy_in = pd.read_excel(strategy_list_in)
     strategy_in = strategy_in.rename(columns = {'Unnamed: 0':'策略名称'},inplace = False)
     strategy_out = pd.read_excel(strategy_list_out)        
     strategy_out = strategy_out.rename(columns = {'Unnamed: 0':'策略名称'},inplace = False)
     strategy_in = strategy_in.sort_values('收益率-1M',ascending = False)
+    strategy_in = strategy_in[strategy_in['策略名称'].notnull()]
     
     st.title('指数基金策略列表')
     st.text('')
@@ -149,16 +136,16 @@ def strategy_list_ui(strategy_list_in,strategy_list_out):
                 st.text('|'+strategy_in['策略标签'].values[k])
             with col2: 
                 st.text('>>>场内基金组合')
-                st.text('|收益率-1M:'+strategy_in['收益率-1M'].values[k]+
-                        '       |收益率-至今:'+strategy_in['收益率-3M'].values[k])
-                st.text('|年化波动率-1M:'+strategy_in['年化波动率-1M'].values[k]+
-                        '   |年化波动率-至今:'+strategy_in['年化波动率-3M'].values[k])
+                st.text('|收益率-1M:'+str(strategy_in['收益率-1M'].values[k])+
+                        '       |收益率-至今:'+str(strategy_in['收益率-3M'].values[k]))
+                st.text('|年化波动率-1M:'+str(strategy_in['年化波动率-1M'].values[k])+
+                        '   |年化波动率-至今:'+str(strategy_in['年化波动率-3M'].values[k]))
             with col3: 
                 st.text('>>>场外基金组合')
-                st.text('|收益率-1M:'+strategy_out['收益率-1M'].values[k]+
-                        '       |收益率-至今:'+strategy_out['收益率-3M'].values[k])
-                st.text('|年化波动率-1M:'+strategy_out['年化波动率-1M'].values[k]+
-                        '   |年化波动率-至今:'+strategy_out['年化波动率-3M'].values[k])
+                st.text('|收益率-1M:'+str(strategy_out['收益率-1M'].values[k])+
+                        '       |收益率-至今:'+str(strategy_out['收益率-3M'].values[k]))
+                st.text('|年化波动率-1M:'+str(strategy_out['年化波动率-1M'].values[k])+
+                        '   |年化波动率-至今:'+str(strategy_out['年化波动率-3M'].values[k]))
             
             st.text('——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————')
 
@@ -207,17 +194,17 @@ def broker_strategy_ui(broker_strategy_path,strategy_path):
         del df_ETF[mkt_select+'权重']
         
         df_stk = pd.read_excel(broker_strategy_path+broker_select+mkt_select+'策略结果.xlsx',sheet_name = 'top_stk')
-        df_stk = df_stk[['股票代码','股票名称','股票权重','区间涨跌幅']]
+        df_stk = df_stk[['股票代码','股票名称','股票权重','区间收益率']]
         df_stk = df_stk.set_index('股票代码')
 
         df_nav = pd.read_excel(broker_strategy_path+broker_select+mkt_select+'策略结果.xlsx',sheet_name = 'port_nav')
         df_nav['index'] = df_nav['index'].apply(lambda x:str(x)[:10])
         df_nav_plt = Line(init_opts = opts.InitOpts(width = '1100px',height = '500px')).add_xaxis(list(df_nav['index'])
-                         ).add_yaxis(name_select,list(round(df_nav[name_select],2))
-                         ).add_yaxis('中证500指数',list(round(df_nav['中证500指数'],2))
-                         ).add_yaxis('沪深300指数',list(round(df_nav['沪深300指数'],2))
+                         ).add_yaxis(name_select,list(df_nav[name_select])
+                         ).add_yaxis('中证500指数',list(df_nav['中证500指数'])
+                         ).add_yaxis('沪深300指数',list(df_nav['沪深300指数'])
                          ).set_series_opts(label_opts=opts.LabelOpts(is_show=False),
-                                          ).set_global_opts(yaxis_opts=opts.AxisOpts(min_='dataMin'),datazoom_opts=opts.DataZoomOpts()
+                                          ).set_global_opts(yaxis_opts=opts.AxisOpts(min_= np.round(df_nav[name_select].min()-0.05,2)),datazoom_opts=opts.DataZoomOpts()
                                           ).render('line.html')  
                                           
         df_label = pd.read_excel(broker_strategy_path+broker_select+mkt_select+'策略结果.xlsx',sheet_name = 'top_label')
@@ -318,17 +305,17 @@ def construct_strategy_ui(ETF_pool_path):
         del df_ETF[mkt_select+'权重']
         
         df_stk = ETF_results.top_stk
-        df_stk = df_stk[['股票代码','股票名称','股票权重','区间涨跌幅']]
+        df_stk = df_stk[['股票代码','股票名称','股票权重','区间收益率']]
         df_stk = df_stk.set_index('股票代码')
         
         df_nav = ETF_results.port_nav.reset_index()
         df_nav['index'] = df_nav['index'].apply(lambda x:str(x)[:10])
         df_nav_plt = Line(init_opts = opts.InitOpts(width = '1100px',height = '500px')).add_xaxis(list(df_nav['index'])
-                         ).add_yaxis('赛道配置策略',list(round(df_nav['赛道配置策略'],2))
-                         ).add_yaxis('中证500指数',list(round(df_nav['中证500指数'],2))
-                         ).add_yaxis('沪深300指数',list(round(df_nav['沪深300指数'],2))
+                         ).add_yaxis('赛道配置策略',list(df_nav['赛道配置策略'])
+                         ).add_yaxis('中证500指数',list(df_nav['中证500指数'])
+                         ).add_yaxis('沪深300指数',list(df_nav['沪深300指数'])
                          ).set_series_opts(label_opts=opts.LabelOpts(is_show=False),
-                                          ).set_global_opts(yaxis_opts=opts.AxisOpts(min_='dataMin'),datazoom_opts=opts.DataZoomOpts()
+                                          ).set_global_opts(yaxis_opts=opts.AxisOpts(min_= np.round(df_nav['赛道配置策略'].min()-0.05,2)),datazoom_opts=opts.DataZoomOpts()
                                           ).render('line.html')  
                                           
         df_label = ETF_results.stk_label
@@ -360,6 +347,10 @@ def construct_strategy_ui(ETF_pool_path):
 
 
 def label_strategy_ui(ETF_label_path):
+    with st.beta_container(): 
+        st.title('创建指数基金策略组合')
+        st.header('基于标签配置指数基金策略')
+
     ETF_label = pd.read_excel(ETF_label_path)
     ETF_label = ETF_label[ETF_label['股票权重']>15]
     mkt_select = st.selectbox('',('场内','场外'))
@@ -375,7 +366,7 @@ def label_strategy_ui(ETF_label_path):
         except KeyError:
             return s.capitalize()
     selection = st.multiselect("热门标签", options=list(set(ETF_label['一级标签'])), 
-                               default=['太阳能光伏','医疗服务','证券'], format_func=pretty)
+                               default=['半导体芯片','光伏太阳能','有色金属'], format_func=pretty)
     weight_list = []
     weight_sum = 0
     fund_list = []
@@ -436,17 +427,17 @@ def label_strategy_ui(ETF_label_path):
         del df_ETF[mkt_select+'权重']
         
         df_stk = ETF_results.top_stk
-        df_stk = df_stk[['股票代码','股票名称','股票权重','区间涨跌幅']]
+        df_stk = df_stk[['股票代码','股票名称','股票权重','区间收益率']]
         df_stk = df_stk.set_index('股票代码')
         
         df_nav = ETF_results.port_nav.reset_index()
         df_nav['index'] = df_nav['index'].apply(lambda x:str(x)[:10])
         df_nav_plt = Line(init_opts = opts.InitOpts(width = '1100px',height = '500px')).add_xaxis(list(df_nav['index'])
-                         ).add_yaxis('标签配置策略',list(round(df_nav['标签配置策略'],2))
-                         ).add_yaxis('中证500指数',list(round(df_nav['中证500指数'],2))
-                         ).add_yaxis('沪深300指数',list(round(df_nav['沪深300指数'],2))
+                         ).add_yaxis('标签配置策略',list(df_nav['标签配置策略'])
+                         ).add_yaxis('中证500指数',list(df_nav['中证500指数'])
+                         ).add_yaxis('沪深300指数',list(df_nav['沪深300指数'])
                          ).set_series_opts(label_opts=opts.LabelOpts(is_show=False),
-                                          ).set_global_opts(yaxis_opts=opts.AxisOpts(min_='dataMin'),datazoom_opts=opts.DataZoomOpts()
+                                          ).set_global_opts(yaxis_opts=opts.AxisOpts(min_= np.round(df_nav['标签配置策略'].min()-0.05,2)),datazoom_opts=opts.DataZoomOpts()
                                           ).render('line.html')  
                                           
         df_label = ETF_results.stk_label
@@ -491,15 +482,15 @@ def main():
         strategy_list_ui(strategy_list_in = './data/strategies/场内策略汇总.xlsx',
                          strategy_list_out = './data/strategies/场外策略汇总.xlsx',)
     elif side_menu_selectbox == '策略详情':
-        side_menu_sub_selectbox = st.sidebar.radio('指数基金策略组合', ('按赛道配置基金', '推荐策略配置基金', '标签族谱配置基金'))
-        if side_menu_sub_selectbox == '按赛道配置基金':
-            construct_strategy_ui(ETF_pool_path = './data/ind_ETFs/ETF_pool.xlsx')
+        side_menu_sub_selectbox = st.sidebar.radio('指数基金策略组合', ('推荐策略配置基金', '按赛道配置基金', '标签族谱配置基金'))
+        if side_menu_sub_selectbox == '推荐策略配置基金':
+            broker_strategy_ui(broker_strategy_path = './data/strategies/',
+                               strategy_path = './data/ETF_strategies.xlsx')
             agree = st.checkbox('一键下单')
             if agree:
                 st.write('交易成功!')
-        elif side_menu_sub_selectbox == '推荐策略配置基金':
-            broker_strategy_ui(broker_strategy_path = './data/strategies/',
-                               strategy_path = './data/ETF_strategies.xlsx')
+        elif side_menu_sub_selectbox == '按赛道配置基金':
+            construct_strategy_ui(ETF_pool_path = './data/ind_ETFs/ETF_pool.xlsx')
             agree = st.checkbox('一键下单')
             if agree:
                 st.write('交易成功!')
@@ -521,5 +512,5 @@ if __name__ == '__main__':
     try: 
         main()
     except: 
-        st.error('Oops! Something went wrong...Please check your input.\nIf you think there is a bug, please open up an [issue](https://github.com/luxin-tian/mosco_ab_test/issues) and help us improve. ')
+        st.error('Oops! Something went wrong...Please check your input.\nIf you think there is a bug. ')
         raise
