@@ -18,7 +18,7 @@ def get_portfolio_nav(group,broker_name,mkt):
     portfolio[mkt+'代码'] = portfolio[mkt+'代码'].apply(lambda x:np.str(x)+'.OF')
     fund_list = list(portfolio[mkt+'代码'])
     
-    data = pd.read_csv('./data/ETF_nav.CSV',encoding = 'gbk')
+    data = pd.read_excel('./data/ETF_nav.xlsx',encoding = 'gbk')
     data['index'] = pd.to_datetime(data['日期'],format = '%Y-%m-%d')
     data = data.loc[(data['index']>=time_start)&(data['index']<=time_end)&(data['代码'].isin(fund_list)),
                     :]
@@ -26,7 +26,7 @@ def get_portfolio_nav(group,broker_name,mkt):
     nav = pd.DataFrame(nav.reset_index(),index = range(len(nav))).set_index('index')
     
     #对于策略起始日还没有发布的指数基金产品，以基金基准指数净值作为替代
-    index_nav =  pd.read_csv('./data/index_nav.CSV',encoding = 'gbk')
+    index_nav =  pd.read_csv('./data/index_nav.csv',encoding = 'gbk')
     index_nav = index_nav.rename(columns = {'Unnamed: 0':'index'},inplace = False)
     index_nav['index'] = pd.to_datetime(index_nav['index'],format = '%Y-%m-%d')
     for i in nav.columns:
