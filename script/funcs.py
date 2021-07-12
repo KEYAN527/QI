@@ -18,7 +18,7 @@ def get_portfolio_nav(group,broker_name,mkt):
     portfolio[mkt+'代码'] = portfolio[mkt+'代码'].apply(lambda x:np.str(x)+'.OF')
     fund_list = list(portfolio[mkt+'代码'])
     
-    data = pd.read_excel('./data/ETF_nav.xlsx',encoding = 'gbk')
+    data = pd.read_excel('./data/ETF_nav.xlsx')
     data['index'] = pd.to_datetime(data['日期'],format = '%Y-%m-%d')
     data = data.loc[(data['index']>=time_start)&(data['index']<=time_end)&(data['代码'].isin(fund_list)),
                     :]
