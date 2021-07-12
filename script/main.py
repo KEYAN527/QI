@@ -21,7 +21,7 @@ from pyecharts import options as opts
 # Import the hypothesis_testing.py module
 #from hypothesis_testing import *
 #import streamlit_analytics
-from funcs_run import *
+from funcs import *
 
 class port_ana(object):
     def __init__(self, group,broker_name,mkt,index_list,last_rpt_period):
